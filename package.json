@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "Cache dependencies and build outputs",
-  "main": "dist/index.js",
   "scripts": {
     "build": "tsc && ncc build -o dist/ src/index.ts"
   },

@@ -3,7 +3,7 @@ description: 'Optimised installation and caching of npm dependencies to improve 
 author: 'Trilogy'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
 branding:
   icon: 'archive'
   color: 'gray-dark'
