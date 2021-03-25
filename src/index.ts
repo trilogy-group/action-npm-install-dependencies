@@ -31,19 +31,15 @@ async function run() {
   }
 
   core.info('Configuring npm')
-  await exec.exec(`
-  npm config set @trilogy-group:registry https://npm.pkg.github.com/
-  npm config set '//npm.pkg.github.com/:_authToken' $GITHUB_TOKEN
-  `)
+  await exec.exec('npm config set @trilogy-group:registry https://npm.pkg.github.com/')
+  await exec.exec('npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN')
 
   core.info('Installing dependencies')
   await exec.exec('npm run ci-all')
 
-  core.info('De-duplicating dependencies')
-  await exec.exec(`
-  sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq rdfind
-  rdfind -makehardlinks true .
-  `)
+  core.info('Merging duplicate files')
+  await exec.exec('sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq rdfind')
+  await exec.exec('rdfind -makehardlinks true .')
 
   try {
       await cache.saveCache(cachePaths, cacheKey)
