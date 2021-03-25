@@ -70,6 +70,12 @@ async function hashFiles(files: string[]) {
 }
 
 (async () => {
-  await run()
+  try {
+    await run()
+  } catch (error) {
+    core.info(`[warning]${error.message}`)
+    process.exitCode = 1
+  }
+}
 })()
 
