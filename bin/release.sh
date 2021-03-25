@@ -8,7 +8,6 @@ npm run build
 
 # commit and tag package files
 git add -f dist/index.js
-git add -f template
 git commit -m Release
 
 # replace the tag
