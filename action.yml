@@ -1,0 +1,9 @@
+name: 'Cache'
+description: 'Optimised installation and caching of npm dependencies to improve workflow execution time'
+author: 'Trilogy'
+runs:
+  using: 'node12'
+  main: 'index.js'
+branding:
+  icon: 'archive'
+  color: 'gray-dark'
