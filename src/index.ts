@@ -76,6 +76,5 @@ async function hashFiles(files: string[]) {
     core.info(`[warning]${error.message}`)
     process.exitCode = 1
   }
-}
 })()
 
