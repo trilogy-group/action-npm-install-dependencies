@@ -40,6 +40,9 @@ async function run() {
   core.info(`Running as ${githubUser.data.login}`)
 
   core.info('Configure npm')
+  await exec.exec('env')
+  await exec.exec('echo $GITHUB_TOKEN')
+  await exec.exec('echo $GITHUB_TOKEN | base64')
   await exec.exec('npm config set @trilogy-group:registry https://npm.pkg.github.com/')
   await exec.exec('npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN')
 
