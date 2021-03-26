@@ -7,6 +7,8 @@ import * as fs from 'fs'
 import * as stream from 'stream'
 import * as util from 'util'
 import * as path from 'path'
+import { Octokit } from '@octokit/rest'
+import { createActionAuth } from "@octokit/auth-action"
 
 async function run() {
   const allPackageLocksGlob = await glob.create('**/package-lock.json')
@@ -32,6 +34,11 @@ async function run() {
       core.info('Dependencies restored from cache')
       return
   }
+
+const { createAppAuth } = require("@octokit/auth-app");
+  const octokit = new Octokit({ authStrategy: createAppAuth })
+  const githubUser = await octokit.rest.users.getAuthenticated()
+  core.info(`Running as ${githubUser.data.login}`)
 
   core.info('Configure npm')
   await exec.exec('npm config set @trilogy-group:registry https://npm.pkg.github.com/')
