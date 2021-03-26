@@ -13,6 +13,10 @@ import { createActionAuth } from "@octokit/auth-action"
 async function run() {
   const allPackageLocksGlob = await glob.create('**/package-lock.json')
   const allPackageLocks = [...await allPackageLocksGlob.glob()]
+    .sort((a, b) => a.length - b.length || a.localeCompare(b))
+
+  const allNodeModules = allPackageLocks.map(packageLock =>
+    path.relative(process.cwd(), packageLock.replace('package-lock.json', 'node_modules')))
 
   const cacheKey = [
   	'npm',
@@ -23,8 +27,7 @@ async function run() {
 
   // do this statically for consistency and speed
   //const cachePaths = [ '**/node_modules' ];
-  const cachePaths = allPackageLocks.map(packageLock =>
-  	path.relative(process.cwd(), packageLock.replace('package-lock.json', 'node_modules')));
+  const cachePaths = allNodeModules
   core.info(`Cache paths: ${cachePaths}`)
 
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
@@ -50,7 +53,7 @@ async function run() {
 
   core.info('Merge duplicate files')
   await exec.exec('sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind')
-  await exec.exec('rdfind -makehardlinks true .')
+  await exec.exec(`rdfind -makehardlinks true ${allNodeModules.join(' ')}`)
 
   try {
       await cache.saveCache(cachePaths, cacheKey)
