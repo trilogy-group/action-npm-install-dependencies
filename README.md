@@ -1,4 +1,5 @@
 This action wraps action/cache to install your npm dependencies in an optimised way.
+
 It differs from directly using action/cache & npm ci in the following ways:
 * We cache post-installation rather than pre-installation, to save on post-install script processing
 * We use the image version in the key, so native code is safe
