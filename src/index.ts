@@ -57,7 +57,6 @@ async function run() {
 
   try {
       await cache.saveCache(cachePaths, cacheKey)
-      core.info('Dependencies saved to cache')
   } catch (error) {
       if (error.name === cache.ValidationError.name) {
           throw error
