@@ -25,6 +25,7 @@ async function run() {
   //const cachePaths = [ '**/node_modules' ];
   const cachePaths = allPackageLocks.map(packageLock =>
   	path.relative(path.dirname(packageLock), 'node_modules'));
+  core.info(`Cache paths: ${cachePaths}`)
 
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
   const hasCiAll = packageJson.scripts && packageJson.scripts['ci-all']
