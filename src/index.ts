@@ -35,8 +35,7 @@ async function run() {
       return
   }
 
-const { createAppAuth } = require("@octokit/auth-app");
-  const octokit = new Octokit({ authStrategy: createAppAuth })
+  const octokit = new Octokit({ authStrategy: createActionAuth })
   const githubUser = await octokit.rest.users.getAuthenticated()
   core.info(`Running as ${githubUser.data.login}`)
 
