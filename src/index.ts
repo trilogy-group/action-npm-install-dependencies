@@ -24,21 +24,28 @@ async function run() {
   const cachePaths = allPackageLocks.map(packageLock =>
   	path.relative(path.dirname(packageLock), 'node_modules'));
 
+  const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+  const hasCiAll = packageJson.scripts && packageJson.scripts['ci-all']
+
   const restoredCacheKey = await cache.restoreCache(cachePaths, cacheKey);
   if (restoredCacheKey) {
       core.info('Dependencies restored from cache')
       return
   }
 
-  core.info('Configuring npm')
+  core.info('Configure npm')
   await exec.exec('npm config set @trilogy-group:registry https://npm.pkg.github.com/')
   await exec.exec('npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN')
 
-  core.info('Installing dependencies')
-  await exec.exec('npm run ci-all')
+  core.info('Install dependencies')
+  if (hasCiAll) {
+    await exec.exec('npm run ci-all')
+  } else {
+    await exec.exec('npm ci')
+  }
 
-  core.info('Merging duplicate files')
-  await exec.exec('sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq rdfind')
+  core.info('Merge duplicate files')
+  await exec.exec('sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind')
   await exec.exec('rdfind -makehardlinks true .')
 
   try {
