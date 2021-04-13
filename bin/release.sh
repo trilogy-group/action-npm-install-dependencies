@@ -11,10 +11,10 @@ git add -f dist/index.js
 git commit -m Release
 
 # replace the tag
-git tag -d debug || true
-git push --delete origin debug || true
-git tag debug
-git push --tags origin debug
+git tag -d v1 || true
+git push --delete origin v1 || true
+git tag v1
+git push --tags origin v1
 
 # restore
 git switch main
