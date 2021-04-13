@@ -93,6 +93,8 @@ async function hashFiles(files: string[]) {
     await run()
   } catch (error) {
     core.info(`[warning]${error.message}`)
+    core.info(`[warning]${JSON.stringify(error)}`)
+    core.info(`[warning]${error.stack}`)
     process.exitCode = 1
   }
 })()
