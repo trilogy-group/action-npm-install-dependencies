@@ -25,8 +25,7 @@ async function run() {
   	await hashFiles(allPackageLocks)
   ].join('-')
 
-  // do this statically for consistency and speed
-  //const cachePaths = [ '**/node_modules' ];
+  // our cache path is effectively **/node_modules, but we're deriving it from package-lock.json for consistency and speed
   const cachePaths = allNodeModules
   core.info(`Cache paths: ${cachePaths}`)
 
