@@ -32,8 +32,14 @@ async function run() {
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
   const hasCiAll = packageJson.scripts && packageJson.scripts['ci-all']
 
-  const restoredCacheKey = await cache.restoreCache(cachePaths, cacheKey);
-  if (restoredCacheKey) return
+  try {
+    const restoredCacheKey = await cache.restoreCache(cachePaths, cacheKey);
+    if (restoredCacheKey) return
+  } catch (error) {
+    core.info('cache.restoreCache failed')
+    core.info(JSON.stringify(error, ' ', 2))
+    throw error
+  }
 
   const octokit = new Octokit({ authStrategy: createActionAuth })
   const githubUser = await octokit.rest.users.getAuthenticated()
