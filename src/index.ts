@@ -37,7 +37,8 @@ async function run() {
     if (restoredCacheKey) return
   } catch (error) {
     core.info('cache.restoreCache failed')
-    core.info(JSON.stringify(error, ' ', 2))
+    core.info(error)
+    core.info(JSON.stringify(error))
     throw error
   }
 
