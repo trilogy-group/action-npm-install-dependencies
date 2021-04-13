@@ -32,19 +32,16 @@ async function run() {
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
   const hasCiAll = packageJson.scripts && packageJson.scripts['ci-all']
 
-  try {
-    const restoredCacheKey = await cache.restoreCache(cachePaths, cacheKey);
-    if (restoredCacheKey) return
-  } catch (error) {
-    core.info('cache.restoreCache failed')
-    core.info(error)
-    core.info(JSON.stringify(error))
-    throw error
-  }
+  const restoredCacheKey = await cache.restoreCache(cachePaths, cacheKey);
+  if (restoredCacheKey) return
 
-  const octokit = new Octokit({ authStrategy: createActionAuth })
-  const githubUser = await octokit.rest.users.getAuthenticated()
-  core.info(`Running as ${githubUser.data.login}`)
+  try {
+    const octokit = new Octokit({ authStrategy: createActionAuth })
+    const githubUser = await octokit.rest.users.getAuthenticated()
+    core.info(`Running as ${githubUser.data.login}`)
+  } catch (error) {
+    core.info(`Unable to check GitHub user, continuing regardless. This is usually due to concurrent jobs.`)
+  }
 
   core.info('Configure npm')
   await exec.exec('npm config set @trilogy-group:registry https://npm.pkg.github.com/')
@@ -92,9 +89,8 @@ async function hashFiles(files: string[]) {
   try {
     await run()
   } catch (error) {
-    core.info(`[warning]${error.message}`)
-    core.info(`[warning]${JSON.stringify(error)}`)
     core.info(`[warning]${error.stack}`)
+    core.info(`Payload: ${JSON.stringify(error)}`)
     process.exitCode = 1
   }
 })()
