@@ -56,7 +56,7 @@ async function run() {
   }
 
   core.info('Merge duplicate files')
-  await child.exec("if command -v apt-get >/dev/null; then sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind; elif command -v yum >/dev/null; then sudo amazon-linux-extras install epel -y &&  sudo yum install rdfind -y; else echo Cannot find an installer.; fi") 
+  await child.execSync("if command -v apt-get >/dev/null; then sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind; elif command -v yum >/dev/null; then sudo amazon-linux-extras install epel -y &&  sudo yum install rdfind -y; else echo Cannot find an installer.; fi", {stdio: 'inherit'}) 
   await exec.exec(`rdfind -makehardlinks true ${allNodeModules.join(' ')}`)
 
   try {
