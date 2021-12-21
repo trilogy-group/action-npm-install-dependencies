@@ -2,7 +2,7 @@
 set -e
 
 # create build
-git branch -c work-without-apt staging
+git branch -c main staging
 git switch staging
 npm run build
 
@@ -11,11 +11,11 @@ git add -f dist/index.js
 git commit -m Release
 
 # replace the tag
-git tag -d dummy || true
-git push --delete origin dummy || true
-git tag dummy
-git push --tags origin dummy
+git tag -d v2 || true
+git push --delete origin v2 || true
+git tag v2
+git push --tags origin v2
 
 # restore
-git switch work-without-apt
+git switch main
 git branch -D staging
