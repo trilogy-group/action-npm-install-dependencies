@@ -2,7 +2,7 @@
 set -e
 
 # create build
-git branch -c main staging
+git branch -c work-without-apt staging
 git switch staging
 npm run build
 
@@ -17,5 +17,5 @@ git tag dummy
 git push --tags origin dummy
 
 # restore
-git switch main
+git switch work-without-apt
 git branch -D staging
