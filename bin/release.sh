@@ -8,6 +8,8 @@ npm run build
 
 # commit and tag package files
 git add -f dist/index.js
+cp package.json dist/package.json
+git add -f dist/package.json
 git commit -m Release
 
 # replace the tag
