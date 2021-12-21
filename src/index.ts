@@ -34,7 +34,7 @@ async function run() {
   const hasCiAll = packageJson.scripts && packageJson.scripts['ci-all']
 
   const restoredCacheKey = await cache.restoreCache(cachePaths, cacheKey);
-  if (restoredCacheKey) return
+  // if (restoredCacheKey) return
 
   try {
     const octokit = new Octokit({ authStrategy: createActionAuth })
