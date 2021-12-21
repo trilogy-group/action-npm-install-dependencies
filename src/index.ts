@@ -55,7 +55,21 @@ async function run() {
   }
 
   core.info('Merge duplicate files')
-  await exec.exec('if command -v apt-get >/dev/null; then sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind; elif command -v yum >/dev/null; then sudo amazon-linux-extras install epel -y &&  sudo yum install rdfind -y; else echo "Cannot find an installer."; fi')
+  const aptExecCode = await exec.exec("apt-get --version >/dev/null");
+  if(aptExecCode === 0){
+    await exec.exec("sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind") 
+  }
+  else {
+    const yumExecCode = await exec.exec("yum --version >/dev/null");
+    if(yumExecCode === 0){
+      await exec.exec("sudo amazon-linux-extras install epel -y &&  sudo yum install rdfind -y")
+    }
+    else{
+      core.error("Could not find installer!")
+    }
+  }
+
+  // await exec.exec('if command -v apt-get >/dev/null; then sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind; elif command -v yum >/dev/null; then sudo amazon-linux-extras install epel -y &&  sudo yum install rdfind -y; else echo "Cannot find an installer."; fi')
   await exec.exec(`rdfind -makehardlinks true ${allNodeModules.join(' ')}`)
 
   try {
