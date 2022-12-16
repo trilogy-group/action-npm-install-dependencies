@@ -1,5 +1,5 @@
 {
-    "name": "override-ci-with-ci-all",
+    "name": "test-ci-all",
     "version": "1.0.0",
     "private": true,
     "dependencies": {
