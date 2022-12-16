@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        test: [node12, node16, ci-all]
+        version: [node12, node16, ci-all]
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
