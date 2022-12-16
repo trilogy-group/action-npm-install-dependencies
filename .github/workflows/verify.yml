@@ -6,17 +6,15 @@ on:
 
 jobs:
   run:
+    name: test ${{ matrix.version }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test: [node12, node16, ci-all]
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci
-      - run: npm run build
+      - run: npm ci && npm run build
       - uses: ./
         with:
-          subfolder: test/node12
-      - uses: ./
-        with:
-          subfolder: test/node16
-      - uses: ./
-        with:
-          subfolder: test/ci-all
+          subfolder: test/${{ matrix.version }}
+      - run: cd test/${{ matrix.version }} && npm run test
