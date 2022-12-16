@@ -7,6 +7,6 @@
     },
     "scripts": {
         "ci-all": "touch pass",
-        "test": "test -e pass -a ! -e node_modules; passfail $? $npm_package_name"
+        "test": "test -e pass -a ! -e node_modules/chalk/package.json; passfail $? $npm_package_name"
     }
 }
