@@ -2,7 +2,7 @@ name: 'Cache'
 description: 'Optimised installation and caching of npm dependencies to improve workflow execution time'
 author: 'Trilogy'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
 branding:
   icon: 'archive'
