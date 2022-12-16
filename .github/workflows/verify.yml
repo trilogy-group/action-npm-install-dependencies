@@ -13,8 +13,14 @@ jobs:
         version: [node12, node16, ci-all]
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci && npm run build
-      - uses: ./
+      - name: build action-npm-install-dependencies
+        run: npm ci && npm run build
+      - name: use action-npm-install-dependencies
+        uses: ./
         with:
           subfolder: test/${{ matrix.version }}
-      - run: cd test/${{ matrix.version }} && npm run test
+      - name: check the result
+        run: |
+          export PATH=`pwd`/bin:$PATH
+          cd test/${{ matrix.version }}
+          npm run test
