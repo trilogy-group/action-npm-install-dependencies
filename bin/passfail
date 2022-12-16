@@ -1,0 +1,11 @@
+#!/bin/bash
+
+outcome=$1
+if [ "$outcome" -eq "0" ]; then
+    message='\e[32mPASS\e[0m'
+else
+    message='\e[31mFAIL\e[0m'
+fi
+shift
+echo -e $message "$@"
+exit $outcome

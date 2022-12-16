@@ -1,0 +1,26 @@
+name: Verify
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  run:
+    name: test ${{ matrix.version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [node12, node16, ci-all]
+    steps:
+      - uses: actions/checkout@v2
+      - name: build action-npm-install-dependencies
+        run: npm ci && npm run build
+      - name: use action-npm-install-dependencies
+        uses: ./
+        with:
+          target: test/${{ matrix.version }}
+      - name: check the result
+        run: |
+          export PATH=`pwd`/bin:$PATH
+          cd test/${{ matrix.version }}
+          npm run test

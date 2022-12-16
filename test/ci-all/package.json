@@ -1,0 +1,12 @@
+{
+    "name": "test-ci-all",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "chalk": "^5.2.0"
+    },
+    "scripts": {
+        "ci-all": "mkdir node_modules && touch node_modules/pass",
+        "test": "test -e node_modules/pass -a ! -e node_modules/chalk/package.json; passfail $? $npm_package_name"
+    }
+}
