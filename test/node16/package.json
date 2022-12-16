@@ -1,0 +1,11 @@
+{
+    "name": "test-node16",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "chalk": "^5.2.0"
+    },
+    "scripts": {
+        "test": "test -e node_modules/chalk/package.json; ../../passfail $? $npm_package_name"
+    }
+}

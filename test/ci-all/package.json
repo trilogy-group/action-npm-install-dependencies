@@ -1,0 +1,12 @@
+{
+    "name": "test-ci-all-runs-instead-of-ci",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "chalk": "^5.2.0"
+    },
+    "scripts": {
+        "ci-all": "touch pass",
+        "test": "test -e pass -a ! -e node_modules; ../../bin/passfail $? $npm_package_name"
+    }
+}

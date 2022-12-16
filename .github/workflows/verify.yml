@@ -12,3 +12,11 @@ jobs:
       - run: npm ci
       - run: npm run build
       - uses: ./
+        with:
+          subfolder: test/node12
+      - uses: ./
+        with:
+          subfolder: test/node16
+      - uses: ./
+        with:
+          subfolder: test/ci-all
