@@ -51,7 +51,7 @@ async function run() {
 
   core.info('Install dependencies')
   const installDeps = hasCiAll ? 'npm run ci-all' : 'npm ci'
-  await exec.exec(`cd "${target}" && ${installDeps}`)
+  await exec.exec(installDeps, undefined, {cwd: target})
 
   core.info('Merge duplicate files')
   await child_process.execSync("if command -v apt-get >/dev/null; then sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind; elif command -v yum >/dev/null; then sudo amazon-linux-extras install epel -y &&  sudo yum install rdfind -y; else echo Cannot find an installer.; fi", {stdio: 'inherit'}) 
