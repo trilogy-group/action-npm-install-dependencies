@@ -12,7 +12,8 @@ import { Octokit } from '@octokit/rest'
 import { createActionAuth } from "@octokit/auth-action"
 
 async function run() {
-  const allPackageLocksGlob = await glob.create('**/package-lock.json')
+  const target = core.getInput('target') || '.'
+  const allPackageLocksGlob = await glob.create(`${target}/**/package-lock.json`)
   const allPackageLocks = [...await allPackageLocksGlob.glob()]
     .sort((a, b) => a.length - b.length || a.localeCompare(b))
 
@@ -30,7 +31,7 @@ async function run() {
   const cachePaths = allNodeModules
   core.info(`Cache paths: ${cachePaths}`)
 
-  const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+  const packageJson = JSON.parse(fs.readFileSync(`${target}/package.json`, 'utf8'))
   const hasCiAll = packageJson.scripts && packageJson.scripts['ci-all']
 
   const restoredCacheKey = await cache.restoreCache(cachePaths, cacheKey);
@@ -49,11 +50,8 @@ async function run() {
   await exec.exec(`npm config set //npm.pkg.github.com/:_authToken ${process.env.GITHUB_TOKEN}`)
 
   core.info('Install dependencies')
-  if (hasCiAll) {
-    await exec.exec('npm run ci-all')
-  } else {
-    await exec.exec('npm ci')
-  }
+  const installDeps = hasCiAll ? 'npm run ci-all' : 'npm ci'
+  await exec.exec(`cd "${target}" && ${installDeps}`)
 
   core.info('Merge duplicate files')
   await child_process.execSync("if command -v apt-get >/dev/null; then sudo DEBIAN_FRONTEND=noninteractive apt-get install -qq -o=Dpkg::Use-Pty=0 rdfind; elif command -v yum >/dev/null; then sudo amazon-linux-extras install epel -y &&  sudo yum install rdfind -y; else echo Cannot find an installer.; fi", {stdio: 'inherit'}) 

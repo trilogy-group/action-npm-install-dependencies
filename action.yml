@@ -7,3 +7,8 @@ runs:
 branding:
   icon: 'archive'
   color: 'gray-dark'
+inputs:
+  target:
+    description: 'subfolder with the project'
+    required: false
+    default: '.'
