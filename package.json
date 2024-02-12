@@ -4,7 +4,7 @@
   "private": true,
   "description": "Cache dependencies and build outputs",
   "scripts": {
-    "build": "tsc && ncc build -o dist/ src/index.ts"
+    "build": "tsc && ncc build -o dist/ src/index.ts --openssl-legacy-provider"
   },
   "devDependencies": {
     "@actions/cache": "^1.0.6",
