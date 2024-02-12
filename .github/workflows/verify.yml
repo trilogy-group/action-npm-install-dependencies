@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [node16, ci-all] # COMMENT: Don't change the versions we test against
+        version: [node16, ci-all]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: build action-npm-install-dependencies
         run: npm ci && npm run build
       - name: use action-npm-install-dependencies
