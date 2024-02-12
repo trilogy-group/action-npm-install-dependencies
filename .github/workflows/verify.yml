@@ -12,7 +12,7 @@ jobs:
       matrix:
         version: [node12, node16, ci-all]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: build action-npm-install-dependencies
         run: npm ci && npm run build
       - name: use action-npm-install-dependencies
