@@ -59,7 +59,7 @@ async function run() {
 
   try {
       await cache.saveCache(cachePaths, cacheKey)
-  } catch (error) {
+  } catch (error: any) {
       if (error.name === cache.ValidationError.name) {
           throw error
       } else if (error.name === cache.ReserveCacheError.name) {
@@ -87,7 +87,7 @@ async function hashFiles(files: string[]) {
 (async () => {
   try {
     await run()
-  } catch (error) {
+  } catch (error: any) {
     core.info(`[warning]${error.stack}`)
     core.info(`Payload: ${JSON.stringify(error)}`)
     process.exitCode = 1
