@@ -7,7 +7,7 @@
     "build": "tsc && NODE_OPTIONS=--openssl-legacy-provider ncc build -o dist/ src/index.ts"
   },
   "devDependencies": {
-    "@actions/cache": "^1.0.6",
+    "@actions/cache": "^4.0.0",
     "@actions/core": "^1.2.6",
     "@actions/exec": "^1.0.4",
     "@actions/glob": "^0.1.1",
